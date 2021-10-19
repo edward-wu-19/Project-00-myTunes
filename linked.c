@@ -40,3 +40,24 @@ struct song *insert_order(struct song *list, char *name, char* artist) {
         
     }
 }
+
+void print_list(struct song *front){
+    while (front != 0){
+        print_song(front);
+        printf(" | ");
+        front = front->next;
+    }
+    printf("\n");
+}
+
+void print_song(struct song *song){
+    printf("%s: %s", song->name, song->artist);
+}
+
+struct song *find_song(struct song *front, char artist[], char song[]){
+    if ()
+}
+
+struct song *find_first_song(struct song *front, char artist[]){
+
+}
