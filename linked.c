@@ -16,15 +16,17 @@ struct song {
 // Node Creation Functions
 struct song *create_node(char* name, char *artist) {
     struct song *s = (struct song *) calloc(1, sizeof(struct song));
-    char *np = name, *ap = artist;
+    char *np = strdup(name), *npc = np, *ap = strdup(artist), *apc = ap;
     while (np != NULL) {
         *np = tolower(*np); np++;
     }
     while (ap != NULL) {
         *ap = tolower(*ap); ap++;
     }
-    strncpy((char *)&(s->name), name, sizeof(s->name)-1);
-    strncpy((char *)&(s->artist), artist, sizeof(s->artist)-1);
+    strncpy((char *)&(s->name), npc, sizeof(s->name)-1);
+    strncpy((char *)&(s->artist), apc, sizeof(s->artist)-1);
+    free((void *) npc);
+    free((void *) apc);
     s->next = NULL;
     return s;
 }
