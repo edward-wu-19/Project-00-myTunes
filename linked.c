@@ -78,11 +78,11 @@ struct song *insert_new_node_order(struct song *list, char *name, char* artist) 
 void print_song(struct song *song) {
     printf("%s: %s", song->name, song->artist);
 }
-void print_list(struct song *front) {
-    while (front != NULL){
-        print_song(front);
+void print_list(struct song *list) {
+    while (list != NULL){
+        print_song(list);
         printf(" | ");
-        front = front->next;
+        list = list->next;
     }
     printf("\n");
 }
