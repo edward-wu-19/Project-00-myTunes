@@ -14,13 +14,15 @@ struct song {
 
 
 // Node Creation Functions
-struct song *create_node(char* name, char *artist) {
+// takes strings name and artist
+struct song *create_node(const char* name, const char *artist) {
     struct song *s = (struct song *) calloc(1, sizeof(struct song));
-    char *np = strdup(name), *npc = np, *ap = strdup(artist), *apc = ap;
-    while (np != NULL) {
+    char *np = strndup(name, sizeof(s->name)-1), *npc = np;
+    char *ap = strndup(artist, sizeof(s->artist)-1), *apc = ap;
+    while (*np != '\0') {
         *np = tolower(*np); np++;
     }
-    while (ap != NULL) {
+    while (*ap != '\0') {
         *ap = tolower(*ap); ap++;
     }
     strncpy((char *)&(s->name), npc, sizeof(s->name)-1);
@@ -37,7 +39,7 @@ struct song *insert_node_front(struct song *list, struct song *s) {
     s->next = list;
     return s;
 }
-struct song *insert_new_node_front(struct song *list, char *name, char* artist) {
+struct song *insert_new_node_front(struct song *list, const char *name, const char* artist) {
     return insert_node_front(list, create_node(name, artist));
 }
 
@@ -71,7 +73,7 @@ struct song *insert_node_order(struct song *list, struct song *s) {
     s->next = temp2;
     return list;
 }
-struct song *insert_new_node_order(struct song *list, char *name, char* artist) {
+struct song *insert_new_node_order(struct song *list, const char *name, const char* artist) {
     return insert_node_order(list, create_node(name, artist));
 }
 
@@ -90,7 +92,7 @@ void print_list(struct song *list) {
 }
 
 // Find Song Functions
-struct song *find_song(struct song *front, char *artist, char *song) {
+struct song *find_song(struct song *front, const char *artist, const char *song) {
     struct song *temp = front, *s = create_node(artist, song);
     while (temp != NULL) {
         if (compare_node(temp, s) == 0) return temp;
@@ -98,7 +100,7 @@ struct song *find_song(struct song *front, char *artist, char *song) {
     }
     return temp;
 }
-struct song *find_first_song(struct song *front, char *artist) {
+struct song *find_first_song(struct song *front, const char *artist) {
     struct song *temp = front, *s = create_node(NULL, artist);
     while (temp != NULL) {
         if (compare_artist(s, temp) == 0) return temp;
@@ -143,7 +145,7 @@ struct song *remove_node(struct song *list, struct song *s) {
     }
     return list;
 }
-struct song *remove_new_node(struct song *list, char *name, char *artist) {
+struct song *remove_new_node(struct song *list, const char *name, const char *artist) {
     return remove_node(list, create_node(name, artist));
 }
 struct song *free_list(struct song *list) {
