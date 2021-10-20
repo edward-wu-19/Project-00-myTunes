@@ -76,7 +76,7 @@ struct song *insert_new_node_order(struct song *list, char *name, char* artist) 
 
 // Print Song Functions
 void print_song(struct song *song) {
-    printf("%s: %s", song->name, song->artist);
+    if (song != NULL) printf("%s: %s", song->name, song->artist);
 }
 void print_list(struct song *list) {
     while (list != NULL){

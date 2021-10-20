@@ -16,6 +16,7 @@ int compare_node(struct song *s1, struct song *s2);
 struct song *insert_node_order(struct song *list, struct song *s);
 struct song *insert_new_node_order(struct song *list, char *name, char *artist);
 
+//=========================================
 void print_list(struct song *front);
 void print_song(struct song *song);
 
