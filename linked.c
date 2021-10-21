@@ -94,16 +94,16 @@ struct song *insert_new_node_order(struct song *list, const char *name, const ch
 
 
 // Find Song Functions
-struct song *find_song(struct song *front, const char *artist, const char *song) {
-    struct song *temp = front, *s = create_node(artist, song);
+struct song *find_song(struct song *list, const char *name, const char *artist) {
+    struct song *temp = list, *s = create_node(name, artist);
     while (temp != NULL) {
         if (compare_node(temp, s) == 0) return temp;
         temp = temp->next;
     }
     return temp;
 }
-struct song *find_first_song(struct song *front, const char *artist) {
-    struct song *temp = front, *s = create_node(NULL, artist);
+struct song *find_first_song(struct song *list, const char *artist) {
+    struct song *temp = list, *s = create_node(NULL, artist);
     while (temp != NULL) {
         if (compare_artist(s, temp) == 0) return temp;
         temp = temp->next;

@@ -64,8 +64,18 @@ void test_linked() {
     printf("s1: "); print_list(s1);
     s1 = insert_new_node_order(s1,"Love Dramatic","Miura Jam");
     printf("s1: "); print_list(s1);
-    free_list(s1);
     printf("==============================================================\n\n");
+
+    printf("TESTING FIND_SONG, FIND_FIRST_SONG, AND FIND_RANDOM_SONG\n");
+    printf("s1: "); print_list(s1);
+    printf("find_song(s1, \"Capsized\", \"Andrew Bird\"): ");
+    print_song(find_song(s1, "Capsized", "Andrew Bird")); printf("\n");
+    printf("find_song(s1, \"Are You Serious\", \"Andrew Bird\"): ");
+    print_song(find_song(s1, "Are You Serious", "Andrew Bird")); printf("\n");
+    // printf("find_first_song(s1, \"Imagine Dragons\"): ");
+    // print_song(find_first_song(s1, "Imagine Dragons")); printf("\n");
+    // printf("find_first_song(s1, \"Backstreet Boys\"): ");
+    // print_song(find_first_song(s1, "Backstreet Boys")); printf("\n");
 }
 
 void test_library() {
