@@ -14,7 +14,6 @@ struct song {
 
 
 // Node Creation Functions
-// takes strings name and artist
 struct song *create_node(const char* name, const char *artist) {
     struct song *s = (struct song *) calloc(1, sizeof(struct song));
     char *np = strndup(name, sizeof(s->name)-1), *npc = np;
@@ -31,6 +30,20 @@ struct song *create_node(const char* name, const char *artist) {
     free((void *) apc);
     s->next = NULL;
     return s;
+}
+
+
+// Print Song Functions
+void print_song(struct song *song) {
+    if (song != NULL) printf("%s: %s", song->artist, song->name);
+}
+void print_list(struct song *list) {
+    while (list != NULL){
+        print_song(list);
+        printf(" | ");
+        list = list->next;
+    }
+    printf("\n");
 }
 
 
@@ -68,6 +81,8 @@ struct song *insert_node_order(struct song *list, struct song *s) {
             s->next = temp2;
             return list;
         }
+        temp1 = temp1->next;
+        temp2 = temp2->next;
     }
     temp1->next = s;
     s->next = temp2;
@@ -77,19 +92,6 @@ struct song *insert_new_node_order(struct song *list, const char *name, const ch
     return insert_node_order(list, create_node(name, artist));
 }
 
-
-// Print Song Functions
-void print_song(struct song *song) {
-    if (song != NULL) printf("%s: %s", song->name, song->artist);
-}
-void print_list(struct song *list) {
-    while (list != NULL){
-        print_song(list);
-        printf(" | ");
-        list = list->next;
-    }
-    printf("\n");
-}
 
 // Find Song Functions
 struct song *find_song(struct song *front, const char *artist, const char *song) {
