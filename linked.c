@@ -103,7 +103,7 @@ struct song *find_song(struct song *list, const char *name, const char *artist) 
     return temp;
 }
 struct song *find_first_song(struct song *list, const char *artist) {
-    struct song *temp = list, *s = create_node(NULL, artist);
+    struct song *temp = list, *s = create_node("\0\0\0", artist);
     while (temp != NULL) {
         if (compare_artist(s, temp) == 0) return temp;
         temp = temp->next;
