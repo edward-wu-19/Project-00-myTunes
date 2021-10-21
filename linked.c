@@ -3,14 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-
-
-// Struct Definition
-struct song {
-    char name[100];
-    char artist[100];
-    struct song *next;
-};
+#include "linked.h"
 
 
 // Node Creation Functions
