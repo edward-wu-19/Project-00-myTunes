@@ -27,7 +27,7 @@ void test_linked() {
     printf("s1: "); print_list(s1);
     printf("s1 = insert_node_front(s1, create_node(\"Believer\",\"Imagine Dragons\"))\n");
     s1 = insert_node_front(s1, create_node("Believer","Imagine Dragons"));
-    printf("s1: "); print_song(s1); printf("\n");
+    printf("s1: "); print_list(s1);
     printf("s1 = insert_new_node_front(s1, \"Capsized\", \"Andrew Bird\")\n");
     s1 = insert_new_node_front(s1, "Capsized", "Andrew Bird");
     printf("s1: "); print_list(s1);
