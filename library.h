@@ -4,11 +4,11 @@
 #define LIBRARY
 
 struct library {
-    char name[100];
     struct song letter[27];
 };
 
-struct library *create_library(const char *name);
+struct library *create_library();
+int get_index(char *artist);
 
 void print_library_artist(struct library *lib, const char *artist);
 void print_letter(struct library *lib, const char *letter);
