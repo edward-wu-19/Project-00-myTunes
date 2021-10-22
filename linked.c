@@ -91,17 +91,25 @@ struct song *insert_new_node_order(struct song *list, const char *name, const ch
 struct song *find_song(struct song *list, const char *name, const char *artist) {
     struct song *temp = list, *song = create_node(name, artist);
     while (temp != NULL) {
-        if (compare_node(temp, song) == 0) return temp;
+        if (compare_node(temp, song) == 0) {
+            free((void *) song);
+            return temp;
+        }
         temp = temp->next;
     }
+    free((void *) song);
     return temp;
 }
 struct song *find_first_song(struct song *list, const char *artist) {
     struct song *temp = list, *song = create_node("\0\0\0", artist);
     while (temp != NULL) {
-        if (compare_artist(song, temp) == 0) return temp;
+        if (compare_artist(song, temp) == 0) {
+            free((void *) song);
+            return temp;
+        }
         temp = temp->next;
     }
+    free((void *) song);
     return temp;
 }
 struct song *find_random_song(struct song *list) {
@@ -142,7 +150,10 @@ struct song *remove_node(struct song *list, struct song *song) {
     return list;
 }
 struct song *remove_new_node(struct song *list, const char *name, const char *artist) {
-    return remove_node(list, create_node(name, artist));
+    struct song *song = create_node(name, artist);
+    struct song *ret = remove_node(list, song);
+    free((void *) song);
+    return ret;
 }
 struct song *free_list(struct song *list) {
     struct song *temp = list;
