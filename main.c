@@ -88,6 +88,10 @@ void test_linked() {
     print_song(find_first_song(s1, "Backstreet Boys")); printf("\n");
     printf("==============================================================\n\n");
 
+    printf("TESTING GET_INDEX\n");
+    printf("%d\n", get_index(s1->artist));
+    printf("==============================================================\n\n");
+
     printf("TESTING REMOVE_NODE, REMOVE_NEW_NODE, AND FREE_LIST\n");
     printf("s1: "); print_list(s1);
     printf("s1 = remove_node(s1, create_node(\"Love Dramatic\",\"Miura Jam\"))\n");
