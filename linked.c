@@ -3,105 +3,103 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-
-
-// Struct Definition
-struct song {
-    char name[100];
-    char artist[100];
-    struct song *next;
-};
+#include "linked.h"
 
 
 // Node Creation Functions
-struct song *create_node(char* name, char *artist) {
-    struct song *s = (struct song *) calloc(1, sizeof(struct song));
-    char *np = strdup(name), *npc = np, *ap = strdup(artist), *apc = ap;
-    while (np != NULL) {
-        *np = tolower(*np); np++;
+struct song *create_node(const char* name, const char *artist) {
+    struct song *song = (struct song *) calloc(1, sizeof(struct song));
+    char *namep = strndup(name, sizeof(song->name)-1), *namepc = namep;
+    char *artistp = strndup(artist, sizeof(song->artist)-1), *artistpc = artistp;
+    while (*namep != '\0') {
+        *namep = tolower(*namep); namep++;
     }
-    while (ap != NULL) {
-        *ap = tolower(*ap); ap++;
+    while (*artistp != '\0') {
+        *artistp = tolower(*artistp); artistp++;
     }
-    strncpy((char *)&(s->name), npc, sizeof(s->name)-1);
-    strncpy((char *)&(s->artist), apc, sizeof(s->artist)-1);
-    free((void *) npc);
-    free((void *) apc);
-    s->next = NULL;
-    return s;
-}
-
-
-// Insert Front Functions
-struct song *insert_node_front(struct song *list, struct song *s) {
-    s->next = list;
-    return s;
-}
-struct song *insert_new_node_front(struct song *list, char *name, char* artist) {
-    return insert_node_front(list, create_node(name, artist));
-}
-
-
-// Comparison Functions
-int compare_artist(struct song *s1, struct song *s2) {
-    return strcmp(s1->artist, s2->artist);
-}
-int compare_name(struct song *s1, struct song *s2) {
-    return strcmp(s1->name, s2->name);
-}
-int compare_node(struct song *s1, struct song *s2) {
-    int a = compare_artist(s1, s2);
-    int b = compare_name(s1, s2);
-    return (a == 0 ? b : a);
-}
-
-
-// Insert Order Functions
-struct song *insert_node_order(struct song *list, struct song *s) {
-    if (list == NULL || compare_node(s, list) <= 0) return insert_node_front(list, s);
-    struct song *temp1 = list, *temp2 = list->next;
-    while (temp2 != NULL) {
-        if (compare_node(s, temp2) <= 0) {
-            temp1->next = s;
-            s->next = temp2;
-            return list;
-        }
-    }
-    temp1->next = s;
-    s->next = temp2;
-    return list;
-}
-struct song *insert_new_node_order(struct song *list, char *name, char* artist) {
-    return insert_node_order(list, create_node(name, artist));
+    strncpy((char *)&(song->name), namepc, sizeof(song->name)-1);
+    strncpy((char *)&(song->artist), artistpc, sizeof(song->artist)-1);
+    free((void *) namepc);
+    free((void *) artistpc);
+    song->next = NULL;
+    return song;
 }
 
 
 // Print Song Functions
 void print_song(struct song *song) {
-    if (song != NULL) printf("%s: %s", song->name, song->artist);
+    if (song != NULL) printf("{%s, %s}", song->artist, song->name);
 }
 void print_list(struct song *list) {
-    while (list != NULL){
+    printf("[ ");
+    while (list != NULL) {
         print_song(list);
         printf(" | ");
         list = list->next;
     }
-    printf("\n");
+    printf("]\n");
 }
 
+
+// Insert Front Functions
+struct song *insert_node_front(struct song *list, struct song *song) {
+    song->next = list;
+    return song;
+}
+struct song *insert_new_node_front(struct song *list, const char *name, const char* artist) {
+    return insert_node_front(list, create_node(name, artist));
+}
+
+
+// Comparison Functions
+int compare_artist(struct song *song1, struct song *song2) {
+    return strcmp(song1->artist, song2->artist);
+}
+int compare_name(struct song *song1, struct song *song2) {
+    return strcmp(song1->name, song2->name);
+}
+int compare_node(struct song *song1, struct song *song2) {
+    int a = compare_artist(song1, song2);
+    int b = compare_name(song1, song2);
+    return (a == 0 ? b : a);
+}
+
+
+// Insert Order Functions
+struct song *insert_node_order(struct song *list, struct song *song) {
+    if (list == NULL || compare_node(song, list) <= 0) return insert_node_front(list, song);
+    struct song *temp1 = list, *temp2 = list->next;
+    while (temp2 != NULL) {
+        if (compare_node(song, temp2) <= 0) {
+            temp1->next = song;
+            song->next = temp2;
+            return list;
+        }
+        temp1 = temp1->next;
+        temp2 = temp2->next;
+    }
+    temp1->next = song;
+    song->next = temp2;
+    return list;
+}
+struct song *insert_new_node_order(struct song *list, const char *name, const char* artist) {
+    return insert_node_order(list, create_node(name, artist));
+}
+
+
 // Find Song Functions
-struct song *find_song(struct song *front, char *artist, char *song) {
-    struct song *temp = front, *s = create_node(artist, song);
+struct song *find_song(struct song *list, const char *name, const char *artist) {
+    struct song *temp = list, *song = create_node(name, artist);
     while (temp != NULL) {
-        if (compare_node(temp, s) == 0) return temp;
+        if (compare_node(temp, song) == 0) return temp;
         temp = temp->next;
     }
     return temp;
 }
-struct song *find_first_song(struct song *front, char *artist) {
-    struct song *temp = front, *s = create_node(NULL, artist);
+struct song *find_first_song(struct song *list, const char *artist) {
+    struct song *temp = list, *song = create_node("\0\0\0", artist);
     while (temp != NULL) {
-        if (compare_artist(s, temp) == 0) return temp;
+        if (compare_artist(song, temp) == 0) return temp;
         temp = temp->next;
     }
     return temp;
@@ -123,17 +121,17 @@ struct song *find_random_song(struct song *list) {
 
 
 // Remove Song Fucntions
-struct song *remove_node(struct song *list, struct song *s) {
+struct song *remove_node(struct song *list, struct song *song) {
     struct song *temp1 = list;
     if (temp1 == NULL) return list;
-    if (compare_node(temp1, s) == 0) {
+    if (compare_node(temp1, song) == 0) {
         list = list->next;
         free((void *) temp1);
         return list;
     }
     struct song *temp2 = list->next;
     while (temp2 != NULL) {
-        if (compare_node(temp2, s) == 0) {
+        if (compare_node(temp2, song) == 0) {
             temp1->next = temp2->next;
             free((void *) temp2);
             return list;
@@ -143,7 +141,7 @@ struct song *remove_node(struct song *list, struct song *s) {
     }
     return list;
 }
-struct song *remove_new_node(struct song *list, char *name, char *artist) {
+struct song *remove_new_node(struct song *list, const char *name, const char *artist) {
     return remove_node(list, create_node(name, artist));
 }
 struct song *free_list(struct song *list) {
