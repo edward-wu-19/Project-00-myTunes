@@ -17,7 +17,7 @@ void print_library(struct library *lib) {
     int index;
     for (index = 0; index < 26; index++) {
         if ((lib->letter)[index] != NULL) {
-            const char c = char(97+index);
+            const char c = (char)(97+index);
             print_letter(lib, &c);
         }
     }
@@ -58,7 +58,7 @@ void print_library_artist(struct library *lib, const char *artist) {
 void print_letter(struct library *lib, const char *letter) {
     int index = get_index(letter);
     if (index < 26) {
-        printf("%c: ", char(index+97)); print_list((lib->letter)[index]);
+        printf("%c: ", (char)(index+97)); print_list((lib->letter)[index]);
     } else {
         printf("%c: ", '%'); print_list((lib->letter)[index]);
     }
@@ -113,6 +113,5 @@ struct library *free_library(struct library *lib) {
     for (index = 0; index < 27; index++) {
         (lib->letter)[index] = free_list((lib->letter)[index]);
     }
-    free((void *) lib);
     return lib;
 }

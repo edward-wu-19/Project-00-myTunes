@@ -228,4 +228,5 @@ void test_library() {
 int main() {
     test_linked();
     test_library();
+    return 0;
 }
